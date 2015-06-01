@@ -1,18 +1,21 @@
-,,,;*********************************************************
-,,,; Prática 1                                              *
-,,,; Acionamento sequencial de oito leds ligados à porta P2 *
-,,,; Programador: Francisco Edno                            *
-,,,;*********************************************************
+,,,;********************************************************
+,,,; Prática 1                                             *
+,,,; ----------------------------------------------------- *
+,,,; Acionamento sequencial de oito leds ligados           *
+,,,; à porta P2                                            *
+,,,; ----------------------------------------------------- *
+,,,; Programador: Francisco Edno                           *
+,,,;********************************************************
 ,,,
 000D,,,LED     EQU     P2                                      ; Atribui P2 à LED
 ,,,
 0000,75 A0 FE,INICIO,INICIO: MOV     P2, #(NOT (1 SHL 0))
 0003,11 33,,        ACALL   T_1S
 ,,,
-0005,75 A0 FD,,        MOV     P2, #(NOT (1 SHL 1))
+0005,75 A0 FD,,        MOV     P2, #(NOT (1 SHL 1))                    ; Equivale a: !( 00000001 << 1 ) = !( 000000
 0008,11 33,,        ACALL   T_1S
 ,,,
-000A,75 A0 FB,,        MOV     P2, #(NOT (1 SHL 2))
+000A,75 A0 FB,,        MOV     P2, #(NOT (1 SHL 2))                    ; Simplesmente continuo deslocando o bit de
 000D,11 33,,        ACALL   T_1S
 ,,,
 000F,75 A0 F7,,        MOV     P2, #(NOT (1 SHL 3))

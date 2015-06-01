@@ -18,49 +18,49 @@ ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. 
 
  Line  I  Addr  Code            Source
 
-    1:				;*********************************************************
-    2:				; Prática 1                                              *
-    3:				; Acionamento sequencial de oito leds ligados à porta P2 *
-    4:				; Programador: Francisco Edno                            *
-    5:				;*********************************************************
-    6:
-    7:		D      00A0	LED	EQU	P2					; Atribui P2 à LED
-    8:
-    9:	  0000	75 A0 FE	INICIO:	MOV	P2, #(NOT (1 SHL 0))
-   10:	  0003	11 33			ACALL	T_1S
+    1:				;********************************************************
+    2:				; Prática 1                                             *
+    3:				; ----------------------------------------------------- *
+    4:				; Acionamento sequencial de oito leds ligados		*
+    5:				; à porta P2 						*
+    6:				; ----------------------------------------------------- *
+    7:				; Programador: Francisco Edno                           *
+    8:				;********************************************************
+    9:
+   10:		D      00A0	LED	EQU	P2					; Atribui P2 à LED
    11:
-   12:	  0005	75 A0 FD		MOV	P2, #(NOT (1 SHL 1))
-   13:	  0008	11 33			ACALL	T_1S
+   12:	  0000	75 A0 FE	INICIO:	MOV	P2, #(NOT (1 SHL 0))
+   13:	  0003	11 33			ACALL	T_1S
    14:
-   15:	  000A	75 A0 FB		MOV	P2, #(NOT (1 SHL 2))
-   16:	  000D	11 33			ACALL	T_1S
+   15:	  0005	75 A0 FD		MOV	P2, #(NOT (1 SHL 1))			; Equivale a: !( 00000001 << 1 ) = !( 000000
+				10 ) = 11111101
+   16:	  0008	11 33			ACALL	T_1S
    17:
-   18:	  000F	75 A0 F7		MOV	P2, #(NOT (1 SHL 3))
-   19:	  0012	11 33			ACALL	T_1S
+   18:	  000A	75 A0 FB		MOV	P2, #(NOT (1 SHL 2))			; Simplesmente continuo deslocando o bit de
+				acionamento, de modo que cada led seja ligado
+   19:	  000D	11 33			ACALL	T_1S
    20:
-   21:	  0014	75 A0 EF		MOV	P2, #(NOT (1 SHL 4))
-   22:	  0017	11 33			ACALL	T_1S
+   21:	  000F	75 A0 F7		MOV	P2, #(NOT (1 SHL 3))
+   22:	  0012	11 33			ACALL	T_1S
    23:
-   24:	  0019	75 A0 DF		MOV	P2, #(NOT (1 SHL 5))
-   25:	  001C	11 33			ACALL	T_1S
+   24:	  0014	75 A0 EF		MOV	P2, #(NOT (1 SHL 4))
+   25:	  0017	11 33			ACALL	T_1S
    26:
-   27:	  001E	75 A0 BF		MOV	P2, #(NOT (1 SHL 6))
-   28:	  0021	11 33			ACALL	T_1S
+   27:	  0019	75 A0 DF		MOV	P2, #(NOT (1 SHL 5))
+   28:	  001C	11 33			ACALL	T_1S
    29:
-   30:	  0023	75 A0 7F		MOV	P2, #(NOT (1 SHL 7))
-   31:	  0026	11 33			ACALL	T_1S
+   30:	  001E	75 A0 BF		MOV	P2, #(NOT (1 SHL 6))
+   31:	  0021	11 33			ACALL	T_1S
    32:
-   33:	  0028	01 00			AJMP	INICIO
-   34:
-   35:				;********************************************************
-   36:				; TEMPO							*
-   37:				;********************************************************
-   38:	  002A	78 FF		TEMPO:	MOV	R0, #255
-   39:	  002C	79 FF		DENOVO:	MOV	R1, #255
-   40:
-   41:	  002E	D9 FE			DJNZ	R1,$
-   42:	  0030	D8 FA			DJNZ	R0,DENOVO
-   43:
+   33:	  0023	75 A0 7F		MOV	P2, #(NOT (1 SHL 7))
+   34:	  0026	11 33			ACALL	T_1S
+   35:
+   36:	  0028	01 00			AJMP	INICIO
+   37:
+   38:				;********************************************************
+   39:				; TEMPO							*
+   40:				;********************************************************
+   41:	  002A	78 FF		TEMPO:	MOV	R0, #255
 
 ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 2
 
@@ -68,20 +68,25 @@ ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. 
 
  Line  I  Addr  Code            Source
 
-   44:	  0032	22			RET
-   45:				;********************************************************
+   42:	  002C	79 FF		DENOVO:	MOV	R1, #255
+   43:
+   44:	  002E	D9 FE			DJNZ	R1,$
+   45:	  0030	D8 FA			DJNZ	R0,DENOVO
    46:
-   47:				;********************************************************
-   48:				; T_1S
-   49:				;********************************************************
-   50:	  0033	7A 08		T_1S:	MOV 	R2, #8
-   51:	  0035	11 2A		T_1S_D:	ACALL	TEMPO
-   52:	  0037	DA FC			DJNZ	R2, T_1S_D
-   53:
-   54:	  0039	22			RET
-   55:				;********************************************************
+   47:	  0032	22			RET
+   48:				;********************************************************
+   49:
+   50:				;********************************************************
+   51:				; T_1S
+   52:				;********************************************************
+   53:	  0033	7A 08		T_1S:	MOV 	R2, #8
+   54:	  0035	11 2A		T_1S_D:	ACALL	TEMPO
+   55:	  0037	DA FC			DJNZ	R2, T_1S_D
    56:
-   57:					END
+   57:	  0039	22			RET
+   58:				;********************************************************
+   59:
+   60:					END
 
 
 
@@ -112,7 +117,7 @@ AC				  BIT	      D6
 ACC				  DATA	      E0
 B				  DATA	      F0
 CY				  BIT	      D7
-DENOVO				  CODE	    002C	  39
+DENOVO				  CODE	    002C	  42
 DPH				  DATA	      83
 DPL				  DATA	      82
 EA				  BIT	      AF
@@ -127,13 +132,13 @@ F0				  BIT	      D5
 IE				  DATA	      A8
 IE0				  BIT	      89
 IE1				  BIT	      8B
-INICIO				  CODE	    0000	   9
+INICIO				  CODE	    0000	  12
 INT0				  BIT	      B2
 INT1				  BIT	      B3
 IP				  DATA	      B8
 IT0				  BIT	      88
 IT1				  BIT	      8A
-LED				  NUMBER    00A0	   7
+LED				  NUMBER    00A0	  10
 OV				  BIT	      D2
 P				  BIT	      D0
 P0				  DATA	      80
@@ -173,7 +178,7 @@ T0				  BIT	      B4
 T1				  BIT	      B5
 TB8				  BIT	      9B
 TCON				  DATA	      88
-TEMPO				  CODE	    002A	  38
+TEMPO				  CODE	    002A	  41
 TF0				  BIT	      8D
 TF1				  BIT	      8F
 TH0				  DATA	      8C
@@ -187,6 +192,6 @@ TMOD				  DATA	      89
 TR0				  BIT	      8C
 TR1				  BIT	      8E
 TXD				  BIT	      B1
-T_1S				  CODE	    0033	  50
-T_1S_D				  CODE	    0035	  51
+T_1S				  CODE	    0033	  53
+T_1S_D				  CODE	    0035	  54
 WR				  BIT	      B6
